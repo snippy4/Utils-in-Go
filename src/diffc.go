@@ -33,5 +33,8 @@ func main(){
 			linecount++
 		}
     }
+	for scanner2.Scan() {
+		linecount++
+	}
 	fmt.Println(linecount, "lines differ")
 }
