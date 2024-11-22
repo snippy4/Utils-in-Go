@@ -1,5 +1,5 @@
 # Utils in Go
-A collectiobn of utility scripts based off of the Unix terminal commands to use in windows, and some additional scripts for Linux too.
+A collection of utility scripts based off of the Unix terminal commands to use in windows, and some additional scripts for Linux too.
 
 ### Prerequisites
 None
