@@ -20,7 +20,7 @@ None
 ### Current commands
 | Command    | Description |
 | -------- | ------- |
-| cp file dir| copies file into given directory    |
+| cp \<file\> \<dir\>| copies file into given directory    |
 | mv file dir | moves file into the given directory     |
 | head file    | prints the first 10 lines of the file    |
 | tail file    | prints the last 10 lines of the file    |
