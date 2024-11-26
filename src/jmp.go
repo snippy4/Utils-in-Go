@@ -53,8 +53,21 @@ func main() {
 				return
 			}
 			dir, _ := os.Getwd()
-			entry := map[string]interface{}{"name": name, "dir": dir}
-			data = append(dirName, entry)
+			entry := dirName{name, dir}
+			data = append(data, entry)
+			file.Close()
+			file, err = os.Create("jmp.json")
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			encoder := json.NewEncoder(file)
+			encoder.SetIndent("", "	 ")
+			err = encoder.Encode(data)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
 			fmt.Println("data is", data)
 		},
 	}
