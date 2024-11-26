@@ -26,7 +26,7 @@ func main() {
 		Use:   "help",
 		Short: "Help command",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("usage: jmp save <name> / jmp to <dir>")
+			fmt.Println("usage: jmp save <name> / jmp to <saved name>")
 		},
 	}
 
@@ -38,6 +38,9 @@ func main() {
 				fmt.Println("usage: jmp save <name>")
 				return
 			}
+
+			// open jmp.json
+
 			name := args[0]
 			executable, err := os.Executable()
 			if err != nil {
@@ -52,6 +55,8 @@ func main() {
 			}
 			defer file.Close()
 
+			// load data from jmp.json
+
 			decoder := json.NewDecoder(file)
 			data := []dirName{}
 			err = decoder.Decode(&data)
@@ -59,6 +64,9 @@ func main() {
 				fmt.Println(err)
 				return
 			}
+
+			// add new data to jmp.json and save
+
 			dir, _ := os.Getwd()
 			entry := dirName{name, dir}
 			data = append(data, entry)
