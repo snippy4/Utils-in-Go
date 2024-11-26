@@ -48,7 +48,7 @@ func main() {
 				return
 			}
 			absoluteDir := filepath.Dir(executable)
-			file, err := os.Open(absoluteDir + "\\jmp.json")
+			file, err := os.Open(absoluteDir + "/jmp.json")
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -71,7 +71,7 @@ func main() {
 			entry := dirName{name, dir}
 			data = append(data, entry)
 			file.Close()
-			file, err = os.Create(absoluteDir + "\\jmp.json")
+			file, err = os.Create(absoluteDir + "/jmp.json")
 			if err != nil {
 				fmt.Println(err)
 				return
