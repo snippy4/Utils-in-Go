@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/spf13/cobra"
 )
@@ -38,7 +39,13 @@ func main() {
 				return
 			}
 			name := args[0]
-			file, err := os.Open("jmp.json")
+			executable, err := os.Executable()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			absoluteDir := filepath.Dir(executable)
+			file, err := os.Open(absoluteDir + "\\jmp.json")
 			if err != nil {
 				fmt.Println(err)
 				return
@@ -56,7 +63,7 @@ func main() {
 			entry := dirName{name, dir}
 			data = append(data, entry)
 			file.Close()
-			file, err = os.Create("jmp.json")
+			file, err = os.Create(absoluteDir + "\\jmp.json")
 			if err != nil {
 				fmt.Println(err)
 				return
