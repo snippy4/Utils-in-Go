@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime"
 
 	"github.com/spf13/cobra"
 )
@@ -138,7 +139,12 @@ func main() {
 				return
 
 			}
-			command := exec.Command("bash")
+			command := exec.Command("echo", "Wrong command")
+			if runtime.GOOS == "windows" {
+				command = exec.Command("powershell", "-NoExit", "-Command", "Set-Location -Path '"+dir+"'")
+			} else {
+				command = exec.Command("bash")
+			}
 			command.Stdin = os.Stdin
 			command.Stdout = os.Stdout
 			command.Stderr = os.Stderr
