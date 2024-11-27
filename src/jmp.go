@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
@@ -83,7 +84,6 @@ func main() {
 				fmt.Println(err)
 				return
 			}
-			fmt.Println("data is", data)
 		},
 	}
 
@@ -91,7 +91,65 @@ func main() {
 		Use:   "to",
 		Short: "Jump to command",
 		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("jmp to <dir> using bash script?")
+			if len(args) != 1 {
+				fmt.Println("usage: jmp save <name>")
+				return
+			}
+
+			// open jmp.json
+
+			name := args[0]
+			executable, err := os.Executable()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			absoluteDir := filepath.Dir(executable)
+			file, err := os.Open(absoluteDir + "/jmp.json")
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			defer file.Close()
+
+			// load data from jmp.json
+
+			decoder := json.NewDecoder(file)
+			data := []dirName{}
+			err = decoder.Decode(&data)
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			var dir string = ""
+			for _, item := range data {
+				if item.Name == name {
+					dir = item.Dir
+					break
+				}
+			}
+			if dir == "" {
+				fmt.Println("no dir saved as", name, "found")
+				return
+			}
+			err = os.Chdir(dir)
+			if err != nil {
+				fmt.Println(err)
+				return
+
+			}
+			command := exec.Command("bash")
+			command.Stdin = os.Stdin
+			command.Stdout = os.Stdout
+			command.Stderr = os.Stderr
+
+			// Run the Bash shell
+			err = command.Run()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println("test")
 		},
 	}
 	rootCmd.AddCommand(helpCmd, toCmd, saveCmd)
