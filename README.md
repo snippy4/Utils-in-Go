@@ -33,3 +33,5 @@ None
 | diff \<file1\> \<file2\>    | prints all the lines that differ between file1 and file2    |
 | diffc \<file1\> \<file2\>    | prints the number of lines that differ between file1 and file2    |
 | hello-go-utils   | prints hello to the console   |
+| jmp save \<name\>   | saves the current directory as \<name\>   |
+| jmp to \<name\>   | changes the cd to the directory saved as \<name\> in the terminal|
